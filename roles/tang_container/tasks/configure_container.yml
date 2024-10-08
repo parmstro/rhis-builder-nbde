@@ -37,3 +37,9 @@
   ansible.builtin.service:
     name: "{{ container.generate_systemd.container_prefix }}-{{ container.name }}.service"
     state: started
+
+- name: "Ensure podman socket starts at boot"
+  ansible.builtin.service:
+    name: "podman.socket"
+    state: started
+    enabled: true
