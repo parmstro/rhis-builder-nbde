@@ -1,0 +1,16 @@
+---
+
+- name: "Install Tang Container on targets"
+  hosts: containerhosts
+  become: true
+  gather_facts: true
+
+  tasks:
+
+    - name: "Load the vault variables"
+      ansible.builtin.include_vars:
+        file: "{{ vault_path }}"
+
+    - name: "Apply role tang"
+      ansible.builtin.include_role:
+        name: "tang_container"

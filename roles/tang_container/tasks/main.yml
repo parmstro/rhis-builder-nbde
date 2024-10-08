@@ -1,0 +1,20 @@
+---
+# Deploy tang containers
+
+- name: "Ensure podman is installed on container hosts"
+  ansible.builtin.include_tasks: "ensure_container_tools.yml"
+
+- name: "Fetch latest containers to host"
+  ansible.builtin.include_tasks: "get_container.yml"
+  loop: "{{ containers }}"
+  loop_control:
+    loop_var: container
+
+- name: "Configure container startup"
+  ansible.builtin.include_tasks: "configure_container.yml"
+  loop: "{{ containers }}"
+  loop_control:
+    loop_var: container
+
+- name: "Test Tang Server"
+  ansible.builtin.include_tasks: "verify_deployment.yml"

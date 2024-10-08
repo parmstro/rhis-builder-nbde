@@ -1,0 +1,23 @@
+---
+# To use call using e.g.:
+#   ansible-playbook -i inventory \
+#                    -e "role_name=tang"
+#                    -e "vault_path=~/rhisbuilder_vault.yml"
+#                    --limit container_servers
+#                    --vault-password-file=<your_vault_file_path>
+#                    run_role.yml
+
+- name: "Run Role"
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+
+    - name: "Load the vault variables"
+      ansible.builtin.include_vars:
+        file: "{{ vault_path }}"
+
+    - name: "Apply role {{ role_name }}"
+      ansible.builtin.include_role:
+        name: "{{ role_name }}"

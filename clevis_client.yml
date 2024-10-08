@@ -1,0 +1,16 @@
+---
+
+- name: "Encrypt primary lvm on targets and configure clevis"
+  hosts: clevishosts
+  become: true
+  gather_facts: true
+
+  tasks:
+
+    - name: "Load the vault variables"
+      ansible.builtin.include_vars:
+        file: "{{ vault_path }}"
+
+    - name: "Apply role clevis"
+      ansible.builtin.include_role:
+        name: "clevis"

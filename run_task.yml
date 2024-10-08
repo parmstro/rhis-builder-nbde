@@ -1,0 +1,22 @@
+---
+# To use call using e.g.:
+#   ansible-playbook -i inventory \
+#                    -e "task_name=some_task"
+#                    -e "vault_path=~/rhisbuilder_vault.yml"
+#                    --limit container_servers
+#                    --vault-password-file=<your_vault_file_path>
+#                    run_task.yml
+
+- name: "Run Task"
+  hosts: all
+  become: true
+  gather_facts: true
+
+  tasks:
+
+    - name: "Load the vault variables"
+      ansible.builtin.include_vars:
+        file: "{{ vault_path }}"
+
+    - name: "Run task - {{ task_name }}"
+      ansible.builtin.include_tasks: tasks/{{ test_task_name }}.yml
