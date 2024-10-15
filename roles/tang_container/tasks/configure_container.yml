@@ -18,6 +18,8 @@
     state: "{{ item.state }}"
   loop: "{{ container.selinux_ports }}"
 
+#TODO ensure container service start requires firewalld starting
+
 - name: "Install dependencies"
   ansible.builtin.dnf:
     name: "{{ container.dependencies }}"
