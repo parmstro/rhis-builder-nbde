@@ -1,0 +1,16 @@
+---
+
+# Install the container tools on the host
+
+- name: "Ensure binary prerequisites are installed"
+  ansible.builtin.dnf:
+    name:
+      - "@container-management"
+      - "firewalld"
+    state: present
+
+- name: "Ensure firewalld enabled and started"
+  ansible.builtin.systemd_service:
+    name: "firewalld"
+    enabled: "true"
+    state: "started"
