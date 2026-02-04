@@ -1,15 +1,20 @@
 ---
+
 # This set of tasks checks if a given container deployment
 # container.test_shell_command runs and returns a result
 # we assert that the result standout is the expected result
 # e.g. $(echo test | clevis encrypt tang '{"url":"http://localhost:8080"}' -y | clevis decrypt) == test
 # the implementer is expected to ensure no false positives or false negatives are possible
 
-- name: "Test the target tang server" # noqa: command-instead-of-shell
-  ansible.builtin.shell: "{{ container.test_shell_command }}"
+- name: "Define test value"
+  ansible.builtin.set_fact:
+    test_value: "OcelotPantherJaguarBarnCat"
+
+- name: "Test the target tang server" # noqa: risky-shell-pipe
+  ansible.builtin.shell: "echo {{ test_value }} | clevis encrypt tang '{\"url\":\"{{ ansible_fqdn }}:8080\"}' -y | clevis decrypt"
   register: test_result
   changed_when: true
 
 - name: "Assert that our test value was encrypted/decrypted"
   ansible.builtin.assert:
-    that: test_result.stdout == container.test_expected_result
+    that: test_result.stdout == test_value
