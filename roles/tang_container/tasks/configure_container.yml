@@ -1,5 +1,6 @@
 ---
-# Configure the container to be launched by systemd
+
+# Configure tang the container to be launched by systemd (quadlet)
 
 - name: "Configure the firewall ports"
   ansible.posix.firewalld:
@@ -17,8 +18,6 @@
     setype: "{{ item.setype }}"
     state: "{{ item.state }}"
   loop: "{{ container.selinux_ports }}"
-
-#TODO ensure container service start requires firewalld starting
 
 - name: "Install dependencies"
   ansible.builtin.dnf:
