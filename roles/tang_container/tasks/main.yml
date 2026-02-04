@@ -19,3 +19,6 @@
 
 - name: "Test Tang Server"
   ansible.builtin.include_tasks: "verify_deployment.yml"
+  loop: "{{ containers }}"
+  loop_control:
+    loop_var: container
