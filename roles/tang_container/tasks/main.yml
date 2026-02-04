@@ -1,8 +1,9 @@
 ---
+
 # Deploy tang containers
 
-- name: "Ensure podman is installed on container hosts"
-  ansible.builtin.include_tasks: "ensure_container_tools.yml"
+- name: "Ensure prerequisites"
+  ansible.builtin.include_tasks: "prerequisites.yml"
 
 - name: "Fetch latest containers to host"
   ansible.builtin.include_tasks: "get_container.yml"
