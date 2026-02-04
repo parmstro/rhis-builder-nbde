@@ -1,3 +1,7 @@
+---
+
+# Pull tang containers from registry
+
 - name: "Login to the registry {{ container.registry }}"
   containers.podman.podman_login:
     registry: "{{ container.registry }}"
