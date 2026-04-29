@@ -1,0 +1,74 @@
+---
+# ansible-lint configuration
+
+# Exclude paths from linting
+exclude_paths:
+  - .git/
+  - .github/
+  - .vscode/
+  - venv/
+
+# Enable offline mode (don't check galaxy for updates)
+offline: false
+
+# Set skip_list to exclude specific rules
+# Commented out - address these in future iterations
+skip_list:
+  - yaml[line-length]  # Lines longer than 160 chars - many examples in docs
+  # - name[casing]     # Task names should be in title case
+  # - risky-shell-pipe # Using pipes in shell commands (already using noqa where needed)
+
+# Enforce rules
+# Use 'ansible-lint -L' to list all rules
+warn_list:
+  - experimental  # Experimental rules
+  - role-name     # Role naming conventions
+
+# Configure specific rules
+rules:
+  # Require unique task names across plays
+  name[play]:
+    enabled: true
+
+  # Require task names to be present
+  name[missing]:
+    enabled: true
+
+  # Require FQCN for all modules
+  fqcn:
+    enabled: true
+
+# Mock modules for offline testing
+mock_modules: []
+
+# Mock roles for offline testing
+mock_roles: []
+
+# Enable parseable output for CI/CD integration
+# parseable: true
+
+# Enable strict mode (treat warnings as errors)
+# strict: true
+
+# Set verbosity level (0-3)
+verbosity: 1
+
+# Display rule documentation URL when issues found
+use_default_rules: true
+
+# Only check syntax, don't run rules
+# skip_action_validation: false
+
+# Configure output format
+# Supported: brief, full, md, json, codeclimate, sarif
+# format: full
+
+# Write output to file instead of stdout
+# output_file: ansible-lint-results.txt
+
+# Tags to skip
+# skip_tags:
+#   - skip_ansible_lint
+
+# Tags to run (if specified, only these tags are checked)
+# tags: []
