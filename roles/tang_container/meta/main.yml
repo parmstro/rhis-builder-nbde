@@ -1,0 +1,34 @@
+---
+galaxy_info:
+  role_name: tang_container
+  author: parmstro
+  description: Deploy Tang server in Podman container with systemd integration
+  license: GPL-3.0
+  min_ansible_version: "2.9"
+
+  platforms:
+    - name: EL
+      versions:
+        - "8"
+        - "9"
+    - name: Fedora
+      versions:
+        - "38"
+        - "39"
+        - "40"
+
+  galaxy_tags:
+    - tang
+    - nbde
+    - podman
+    - container
+    - encryption
+    - systemd
+    - rhel
+
+dependencies: []
+
+collections:
+  - containers.podman
+  - ansible.posix
+  - community.general

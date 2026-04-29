@@ -5,7 +5,7 @@ containerhost_registry_password: "{{ containerhost_registry_password_vault }}"
 
 # These variables define the containers that you want to deploy
 # e.g. tang
-containers:
+tang_container_containers:
   - name: "tang"
     image: "rhel8/tang"   # we are using rhel 8.10 so rhel8 tang container
     id: "tang"

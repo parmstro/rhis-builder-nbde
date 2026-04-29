@@ -1,18 +1,36 @@
 ---
 # Deploy tang containers
 
+# Backwards compatibility for deprecated 'containers' variable
+- name: "Handle backwards compatibility for deprecated variable name"
+  ansible.builtin.set_fact:
+    tang_container_containers: "{{ containers }}"
+  when:
+    - containers is defined
+    - tang_container_containers is not defined
+
+- name: "Warn about deprecated 'containers' variable"
+  ansible.builtin.debug:
+    msg: |
+      WARNING: The 'containers' variable is deprecated and will be removed in a future version.
+      Please rename your variable from 'containers' to 'tang_container_containers' in your host_vars or playbook.
+      See role README.md for migration instructions.
+  when:
+    - containers is defined
+    - tang_container_containers is not defined
+
 - name: "Ensure podman is installed on container hosts"
   ansible.builtin.include_tasks: "ensure_container_tools.yml"
 
 - name: "Fetch latest containers to host"
   ansible.builtin.include_tasks: "get_container.yml"
-  loop: "{{ containers }}"
+  loop: "{{ tang_container_containers }}"
   loop_control:
     loop_var: container
 
 - name: "Configure container startup"
   ansible.builtin.include_tasks: "configure_container.yml"
-  loop: "{{ containers }}"
+  loop: "{{ tang_container_containers }}"
   loop_control:
     loop_var: container
 
