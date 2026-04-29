@@ -1,4 +1,11 @@
 ---
+# Call this playbook with:
+#      ansible-playbook -i inventory \
+#                       -e "vault_path=~/rhisbuilder_vault.yml" \
+#                       --limit containerhosts \
+#                       --vault-password-file=<your vault password file path> \
+#                       containerhost_tang.yml
+
 
 - name: "Install Tang Container on targets"
   hosts: containerhosts

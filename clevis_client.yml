@@ -1,6 +1,12 @@
 ---
+# Call this playbook with:
+#      ansible-playbook -i inventory \
+#                       -e "vault_path=~/rhisbuilder_vault.yml" \
+#                       --limit clevishosts \
+#                       --vault-password-file=<your vault password file path> \
+#                       clevis_client.yml
 
-- name: "Encrypt primary lvm on targets and configure clevis"
+- name: "Configure clevis on existing encrypted system"
   hosts: clevishosts
   become: true
   gather_facts: true
@@ -11,6 +17,14 @@
       ansible.builtin.include_vars:
         file: "{{ vault_path }}"
 
-    - name: "Apply role clevis"
+    - name: Create /etc/dracut.conf.d/nbde_client.conf
+      ansible.builtin.copy:
+        content: 'kernel_cmdline="rd.neednet=1"'
+        dest: "/etc/dracut.conf.d/nbde_client.conf"
+        owner: "root"
+        group: "root"
+        mode: "0600"
+
+    - name: "Apply role nbde_client"
       ansible.builtin.include_role:
-        name: "clevis"
+        name: "rhel-system-roles.nbde_client"

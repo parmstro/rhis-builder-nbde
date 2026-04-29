@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:redhat-cop.github.io)",
+      "Bash(git add *)"
+    ]
+  }
+}

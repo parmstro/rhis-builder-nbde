@@ -1,0 +1,6 @@
+nbde_client_bindings:
+  - device: /dev/sda2
+    encryption_password: "{{ nbde_encryption_password_vault }}"
+    servers:
+      - http://tang1.parmstrong.ca:8080
+      - http://c1containers.parmstrong.ca:8080

@@ -1,0 +1,44 @@
+---
+# defaults file for tang_container
+
+# List of container definitions to deploy
+# Each container must define the following minimum required fields:
+#   - name: Container name
+#   - image: Container image name (without registry)
+#   - registry: Container registry URL
+#   - registry_username: Registry authentication username
+#   - registry_password: Registry authentication password
+#
+# See README.md for complete container definition structure and all available options.
+#
+# Example:
+# containers:
+#   - name: "tang"
+#     image: "rhel8/tang"
+#     tag: "latest"
+#     registry: "registry.redhat.io"
+#     registry_username: "{{ vault_registry_username }}"
+#     registry_password: "{{ vault_registry_password }}"
+#     state: started
+#     publish:
+#       - "8080:8080"
+#     volume:
+#       - "tang-keys:/var/db/tang"
+#     firewall:
+#       - port: "8080/tcp"
+#         zone: "public"
+#         state: enabled
+#     selinux_ports:
+#       - ports: 8080
+#         protocol: "tcp"
+#         setype: "tangd_port_t"
+#         state: present
+#     generate_systemd:
+#       path: "/usr/lib/systemd/system/"
+#       restart_policy: "on-failure"
+#       time: 120
+#       names: true
+#       container_prefix: "rhis"
+#       wants: "network-online.target"
+
+containers: []
