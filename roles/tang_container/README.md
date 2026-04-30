@@ -14,6 +14,19 @@ This role automates the deployment of Tang servers (Network Bound Disk Encryptio
 - Named volume management for persistent Tang keys
 - Deployment verification via clevis encrypt/decrypt testing
 
+## Architecture Documentation
+
+This component is part of the [RHIS (Red Hat Infrastructure Standard)](https://github.com/parmstro/rhis-architecture) platform.
+
+For comprehensive documentation:
+- **[Architecture Overview](https://github.com/parmstro/rhis-architecture/blob/main/ARCHITECTURE.md)** - Complete system architecture and design
+- **[Repository Inventory](https://github.com/parmstro/rhis-architecture/blob/main/REPOSITORIES.md)** - All RHIS components and relationships
+- **[Deployment Guide](https://github.com/parmstro/rhis-architecture/blob/main/DEPLOYMENT.md)** - End-to-end deployment instructions
+- **[Dependencies](https://github.com/parmstro/rhis-architecture/blob/main/DEPENDENCIES.md)** - Component dependencies and integration points
+- **[Contributing](https://github.com/parmstro/rhis-architecture/blob/main/CONTRIBUTING.md)** - Development standards and workflow
+
+---
+
 ## Requirements
 
 - RHEL 8.x or 9.x
