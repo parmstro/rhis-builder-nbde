@@ -14,6 +14,19 @@ This role automates the deployment of Tang servers (Network Bound Disk Encryptio
 - Named volume management for persistent Tang keys
 - Deployment verification via clevis encrypt/decrypt testing
 
+## Architecture Documentation
+
+This component is part of the [RHIS (Red Hat Infrastructure Standard)](https://github.com/parmstro/rhis-architecture) platform.
+
+For comprehensive documentation:
+- **[Architecture Overview](https://github.com/parmstro/rhis-architecture/blob/main/ARCHITECTURE.md)** - Complete system architecture and design
+- **[Repository Inventory](https://github.com/parmstro/rhis-architecture/blob/main/REPOSITORIES.md)** - All RHIS components and relationships
+- **[Deployment Guide](https://github.com/parmstro/rhis-architecture/blob/main/DEPLOYMENT.md)** - End-to-end deployment instructions
+- **[Dependencies](https://github.com/parmstro/rhis-architecture/blob/main/DEPENDENCIES.md)** - Component dependencies and integration points
+- **[Contributing](https://github.com/parmstro/rhis-architecture/blob/main/CONTRIBUTING.md)** - Development standards and workflow
+
+---
+
 ## Requirements
 
 - RHEL 8.x or 9.x
@@ -36,12 +49,12 @@ ansible-galaxy collection install containers.podman ansible.posix community.gene
 
 ### Required Variables
 
-#### `containers`
+#### `tang_container_containers`
 
 List of container definitions to deploy. Each container requires the following structure:
 
 ```yaml
-containers:
+tang_container_containers:
   - name: "string"                    # Container name (required)
     image: "string"                   # Container image name without registry (required)
     registry: "string"                # Container registry URL (required)
@@ -91,6 +104,43 @@ containers:
 
 See `defaults/main.yml` for default values.
 
+### Deprecated Variables
+
+#### `containers` (DEPRECATED)
+
+⚠️ **Deprecation Notice**: The `containers` variable is deprecated as of this version and will be removed in a future release.
+
+**Migration Required**: Please rename `containers` to `tang_container_containers` in your:
+- `host_vars/<hostname>/containers.yml` files
+- Playbook variable definitions
+- Any other variable files
+
+**Backwards Compatibility**: The old variable name `containers` is still supported for backwards compatibility. When the role detects the old variable name, it will:
+1. Automatically use the value as if it were `tang_container_containers`
+2. Display a deprecation warning during playbook execution
+
+**Migration Example**:
+
+Before (deprecated):
+```yaml
+# host_vars/tang1.example.com/containers.yml
+containers:
+  - name: "tang"
+    image: "rhel8/tang"
+    # ...
+```
+
+After (recommended):
+```yaml
+# host_vars/tang1.example.com/containers.yml
+tang_container_containers:
+  - name: "tang"
+    image: "rhel8/tang"
+    # ...
+```
+
+**Why This Change**: Following Ansible best practices, all role variables should be prefixed with the role name to prevent variable name collisions when using multiple roles.
+
 ### Internal Variables
 
 The role uses the following internal variables (do not override):
@@ -125,7 +175,7 @@ None. The role is self-contained.
   become: true
   
   vars:
-    containers:
+    tang_container_containers:
       - name: "tang"
         image: "rhel8/tang"
         id: "tang"
@@ -171,7 +221,7 @@ Define container configurations in `host_vars/<hostname>/containers.yml`:
 
 ```yaml
 # host_vars/tang1.example.com/containers.yml
-containers:
+tang_container_containers:
   - name: "tang"
     image: "rhel8/tang"
     registry: "{{ containerhost_registry }}"

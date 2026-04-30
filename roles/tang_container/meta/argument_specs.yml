@@ -1,0 +1,207 @@
+---
+argument_specs:
+  # Main entry point for the role
+  main:
+    short_description: Deploy Tang server containers with Podman
+    description:
+      - Deploys Tang server containers using Podman with systemd integration
+      - Configures firewall rules and SELinux port labeling
+      - Verifies deployment with clevis encrypt/decrypt testing
+
+    author: parmstro
+
+    options:
+      tang_container_containers:
+        description:
+          - List of container definitions to deploy
+          - Each container must specify name, image, registry, and credentials
+        type: list
+        required: true
+        elements: dict
+        options:
+          name:
+            description: Container name
+            type: str
+            required: true
+
+          image:
+            description: Container image name (without registry prefix)
+            type: str
+            required: true
+
+          registry:
+            description: Container registry URL
+            type: str
+            required: true
+
+          registry_username:
+            description: Registry authentication username
+            type: str
+            required: true
+
+          registry_password:
+            description: Registry authentication password
+            type: str
+            required: true
+            no_log: true
+
+          tag:
+            description: Image tag
+            type: str
+            required: false
+            default: "latest"
+
+          id:
+            description: Container ID
+            type: str
+            required: false
+
+          force:
+            description: Force pull image even if present
+            type: bool
+            required: false
+            default: false
+
+          validate_certs:
+            description: Validate registry SSL certificates
+            type: bool
+            required: false
+            default: true
+
+          detach:
+            description: Run container in detached mode
+            type: bool
+            required: false
+            default: true
+
+          state:
+            description: Desired container state
+            type: str
+            required: false
+            default: "started"
+            choices:
+              - started
+              - stopped
+              - present
+              - absent
+
+          systemd:
+            description: Enable systemd in container
+            type: bool
+            required: false
+
+          command:
+            description: Override container command
+            type: str
+            required: false
+
+          dependencies:
+            description: List of packages to install on the host
+            type: list
+            required: false
+            elements: str
+
+          publish:
+            description: List of port mappings (e.g., "8080:8080")
+            type: list
+            required: false
+            elements: str
+
+          volume:
+            description: List of volume mounts (e.g., "tang-keys:/var/db/tang")
+            type: list
+            required: false
+            elements: str
+
+          firewall:
+            description: Firewall rules to configure
+            type: list
+            required: false
+            elements: dict
+            options:
+              port:
+                description: Port/service to open (e.g., "8080/tcp")
+                type: str
+                required: true
+              zone:
+                description: Firewall zone
+                type: str
+                required: false
+                default: "public"
+              state:
+                description: Rule state
+                type: str
+                required: false
+                default: "enabled"
+                choices:
+                  - enabled
+                  - disabled
+              permanent:
+                description: Make rule permanent
+                type: bool
+                required: false
+                default: true
+
+          selinux_ports:
+            description: SELinux port labels to configure
+            type: list
+            required: false
+            elements: dict
+            options:
+              ports:
+                description: Port number
+                type: int
+                required: true
+              protocol:
+                description: Protocol
+                type: str
+                required: true
+                choices:
+                  - tcp
+                  - udp
+              setype:
+                description: SELinux type (e.g., "tangd_port_t")
+                type: str
+                required: true
+              state:
+                description: State
+                type: str
+                required: false
+                default: "present"
+                choices:
+                  - present
+                  - absent
+
+          generate_systemd:
+            description: Systemd service generation options
+            type: dict
+            required: false
+            options:
+              path:
+                description: Path to systemd service file directory
+                type: str
+                required: false
+                default: "/usr/lib/systemd/system/"
+              restart_policy:
+                description: Systemd restart policy
+                type: str
+                required: false
+                default: "on-failure"
+              time:
+                description: Restart timeout in seconds
+                type: int
+                required: false
+                default: 120
+              names:
+                description: Use container name in service file
+                type: bool
+                required: false
+                default: true
+              container_prefix:
+                description: Prefix for service name
+                type: str
+                required: false
+              wants:
+                description: Systemd wants dependency
+                type: str
+                required: false

@@ -12,7 +12,7 @@
 # See README.md for complete container definition structure and all available options.
 #
 # Example:
-# containers:
+# tang_container_containers:
 #   - name: "tang"
 #     image: "rhel8/tang"
 #     tag: "latest"
@@ -41,4 +41,6 @@
 #       container_prefix: "rhis"
 #       wants: "network-online.target"
 
-containers: []
+# DEPRECATED: Old variable name 'containers' is still supported for backwards compatibility
+# but will be removed in a future version. Please migrate to 'tang_container_containers'.
+tang_container_containers: []
